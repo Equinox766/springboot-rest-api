@@ -1,0 +1,1 @@
+INSERT INTO products (name, description, price)  VALUES ('JBL GO', 'LOREM IMPSUIM', 250000);
