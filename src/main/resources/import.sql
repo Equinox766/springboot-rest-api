@@ -1,1 +1,1 @@
-INSERT INTO products (name, description, price)  VALUES ('JBL GO', 'LOREM IMPSUIM', 250000);
+INSERT INTO products (name, description, price, sku)  VALUES ('JBL GO', 'LOREM IMPSUIM', 250000, '001-001-001');
