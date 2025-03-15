@@ -1,9 +1,15 @@
 package org.equinox.apirest.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import org.equinox.apirest.validations.IsRequired;
+import org.equinox.apirest.validations.IsUserNameUnique;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Table(name = "users")
@@ -15,14 +21,18 @@ public class User {
 
     @IsRequired
     @Column(unique = true)
+    @Size(min = 1, max = 50)
+    @IsUserNameUnique
     private String username;
 
     @IsRequired
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @JsonIgnoreProperties({"users", "handler", "hibernateLazyInitializer"})
     @ManyToMany
     @JoinTable(
             name = "user_roles",
@@ -33,6 +43,7 @@ public class User {
     private Set<Role> roles;
 
     @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
 
     public User() {
@@ -97,5 +108,17 @@ public class User {
     @PrePersist
     public void prePersist() {
         this.isActive = Boolean.TRUE;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username);
     }
 }

@@ -68,4 +68,9 @@ public class UserServiceImpl implements IUserService {
         user.ifPresent(userRepository::delete);
         return user;
     }
+
+    @Override
+    public boolean existsUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
 }

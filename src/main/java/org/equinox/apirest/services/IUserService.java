@@ -11,4 +11,5 @@ public interface IUserService {
     User save(User user);
     Optional<User> update(Long id, User user);
     Optional<User> delete(Long id);
+    boolean existsUsername(String username);
 }
