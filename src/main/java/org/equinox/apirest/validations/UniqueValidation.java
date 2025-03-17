@@ -14,10 +14,7 @@ public class UniqueValidation implements ConstraintValidator<IsExistDB, String> 
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        if (productService != null) {
-            return !productService.existsBySku(s);
-        }
-        return true;
-//        return s!=null && !productService.existsBySku(s);
+        if (productService == null) return true;
+        return !productService.existsBySku(s);
     }
 }
